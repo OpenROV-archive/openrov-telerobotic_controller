@@ -54,26 +54,27 @@
     rov.cockpit.emit('headsUpMenu.register', item);
     */
 
+
     //the code below is used to load other asssets that have a path relative to the current
     //path of the executing javascript file.
     var jsFileLocation = urlOfJsFile('telerobotic_controller.js');
 
-    /*
-    $.get(jsFileLocation + '../somefile.txt',function(data){
+    
+    $.get(jsFileLocation + './data-channel.js',function(data){
       console.log(data);
     });
-    */
+    
 
     // If you have more than a couple lines of HTML it might be better
     // to place them in a seperate .html file. The code below will load
     // them in to an element.
 
-    $('#divtoloadcontent').load(jsFileLocation + '../partial.html',function(data){
+    $('body').load(jsFileLocation + '../partial.html',function(data){
       console.log('partial template loaded');
     });
 
     //Load internet based js files
-    $.getScript("htttp://...");
+    $.getScript("https://api.bistri.com/bistri.conference.min.js");
 
     //For loading third party libraries that are bower dependencies
     /*
