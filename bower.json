@@ -1,0 +1,11 @@
+{
+  "name": "openrov-plugin-telerobotic_controller",
+  "description": "Remote control of OpenROV over the Internet",
+  "version": "0.0.0",
+  "homepage": "",
+  "main": "lib/telerobotic_controller",
+  "keywords": [
+    "openrov",
+    "plugin"
+  ]
+}
