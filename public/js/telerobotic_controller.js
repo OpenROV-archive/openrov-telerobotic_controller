@@ -79,7 +79,7 @@
 
     // when Bistri API client is ready, function
     // "onBistriConferenceReady" is invoked
-    bistriCockpit = cockpit;
+    var self = this.cockpit;
     onBistriConferenceReady = function () {
 
         // test if the browser is WebRTC compatible
@@ -273,7 +273,7 @@
         container.scrollTop = container.scrollHeight;
       console.log("new msg received...should be emitting event");
       //.emit('rovpilot.setYaw', 0);
-      bistriCockpit.socket.emit("escs_poweron");
+      self.socket.emit("escs_poweron");
     }
 
     // when checking for chat partner presence
