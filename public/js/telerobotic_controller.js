@@ -273,7 +273,7 @@
         container.scrollTop = container.scrollHeight;
       console.log("new msg received...should be emitting event");
       //.emit('rovpilot.setYaw', 0);
-      Cockpit.Socket.emit("escs_poweron");
+      cockpit.socket.emit("escs_poweron");
     }
 
     // when checking for chat partner presence
