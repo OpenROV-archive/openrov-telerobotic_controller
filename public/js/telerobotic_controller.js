@@ -273,7 +273,7 @@
         container.scrollTop = container.scrollHeight;
       console.log("new msg received...should be emitting event");
       //.emit('rovpilot.setYaw', 0);
-      // self.socket.emit("escs_poweron");
+      self.socket.emit("escs_poweron");
       self.socket.emit("rovpilot.toggleLights");
       self.socket.emit("rovPilot.laserToggle");
     }
