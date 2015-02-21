@@ -274,8 +274,9 @@
       console.log("new msg received...should be emitting event");
       //.emit('rovpilot.setYaw', 0);
       self.socket.emit("escs_poweron");
-      self.socket.emit('rovpilot.toggleLights');
-      self.socket.emit('rovpilot.toggleLasers');
+      self.socket.emit('brightness_update',0);
+      self.socket.emit('laser_update',1);
+      setTimeout(function(){ self.socket.emit('brightness_update',1); }, 2000);
     }
 
     // when checking for chat partner presence
