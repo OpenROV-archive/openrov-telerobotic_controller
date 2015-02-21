@@ -276,9 +276,10 @@
       self.socket.emit("escs_poweron");
       self.socket.emit('brightness_update',1);
       self.socket.emit('laser_update',1);
+      var myrov = self;
       setTimeout(function(){ 
-        self.socket.emit('brightness_update',0);
-        self.socket.emit('laser_update',0);
+        myrov.socket.emit('brightness_update',0);
+        myrov.socket.emit('laser_update',0);
       }, 2000);
     }
 
