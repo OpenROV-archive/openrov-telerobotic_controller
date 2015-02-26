@@ -80,10 +80,9 @@
     // when Bistri API client is ready, function
     // "onBistriConferenceReady" is invoked
     var self = this.cockpit;
-    var 
     $.get("https://localhost:3001/channels/1/telerobotic_credentials", function (data, status){
-      // alert("Data: " + data + "\nStatus: " + status)
-      alert("api_key: " + data.api_key)
+      alert("Data: " + data + "\nStatus: " + status)
+      // alert("api_key: " + data)
     });
     
 
