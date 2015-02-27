@@ -2,7 +2,7 @@
     'use strict';
 
     var telerobotic_controller;
-
+    var OT_apiKey, OT_token, OT_sessionId;
     telerobotic_controller = function telerobotic_controller(cockpit) {
         console.log("Loading telerobotic_controller plugin in the browser.");
 
