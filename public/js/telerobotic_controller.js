@@ -76,16 +76,35 @@
     var room;
     var users = {};
     var dataChannels = {};
-    console
     // when Bistri API client is ready, function
     // "onBistriConferenceReady" is invoked
     var self = this.cockpit;
+    var OT_apiKey, OT_roomToken, OT_sessionId;
     $.get("https://localhost:3001/channels/1/telerobotic_credentials", function (data, status){
-      alert("Data: " + data + "\nStatus: " + status)
-      // alert("api_key: " + data)
+      OT_apiKey = data.api_key;
+      OT_roomToken = data.token;
+      OT_sessionId = data.session_id;
     });
     
+    var session = OT.initSession(OT_apiKey, OT_sessionId)
+    session.connection(OT_token, function (error) {
+      console.log("session connected")
+      session.signal({
+        type: "foo",
+        data: "hello"
+      },
+      function(error) {
+        if (error) {
+          console.log("signal error: " + error.message)
+        } else {
+          console.log("signal sent")
+        }
+      });
 
+      session.on("signal:foo", function(event) {
+        console.log("signal sent from connection: " + event.from.id)
+      });
+    });
 
 
     //Load internet based js files
