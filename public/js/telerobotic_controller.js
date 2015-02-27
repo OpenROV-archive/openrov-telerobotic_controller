@@ -76,39 +76,56 @@
     var room;
     var users = {};
     var dataChannels = {};
-    // when Bistri API client is ready, function
-    // "onBistriConferenceReady" is invoked
     var self = this.cockpit;
-    var OT_apiKey, OT_roomToken, OT_sessionId;
-    $.get("https://localhost:3001/channels/1/telerobotic_credentials", function (data, status){
-      OT_apiKey = data.api_key;
-      OT_roomToken = data.token;
-      OT_sessionId = data.session_id;
+    $.getScript("http://static.opentok.com/v2.4/js/opentok.min.js", function (data,status) {
+      console.log("loaded opentok successfully");
+      $.get("https://openrov-liveview.herokuapp.com/channels/1/telerobotic_credentials", function (data, status){
+        OT_apiKey = data.api_key;
+        OT_token = data.token;
+        OT_sessionId = data.session_id;
+        console.log("OT_sessiondId: " + OT_sessionId + "\nOT_apiKey: " + OT_apiKey + "\nOT_token: " + OT_token);
+        var session = OT.initSession(OT_apiKey, OT_sessionId)
+        session.connect(OT_token, function(error) {
+          console.log("session connected");
+        });
+        session.on("signal:light",function(event){
+          console.log("light: signal sent from connection: " + event.from.id);
+        });
+        session.on("signal:laser", function(event){
+          console.log("laser: signal sent from connection: " + event.from.id);
+        });
+      });
     });
+
+
+
+
+    // var OT_apiKey, OT_roomToken, OT_sessionId;
+    // $.get("https://localhost:3001/channels/1/telerobotic_credentials", function (data, status){
+    //   OT_apiKey = data.api_key;
+    //   OT_roomToken = data.token;
+    //   OT_sessionId = data.session_id;
+    // });
     
-    var session = OT.initSession(OT_apiKey, OT_sessionId)
-    session.connection(OT_token, function (error) {
-      console.log("session connected")
-      session.signal({
-        type: "foo",
-        data: "hello"
-      },
-      function(error) {
-        if (error) {
-          console.log("signal error: " + error.message)
-        } else {
-          console.log("signal sent")
-        }
-      });
+    // var session = OT.initSession(OT_apiKey, OT_sessionId)
+    // session.connection(OT_token, function (error) {
+    //   console.log("session connected")
+    //   session.signal({
+    //     type: "foo",
+    //     data: "hello"
+    //   },
+    //   function(error) {
+    //     if (error) {
+    //       console.log("signal error: " + error.message)
+    //     } else {
+    //       console.log("signal sent")
+    //     }
+    //   });
 
-      session.on("signal:foo", function(event) {
-        console.log("signal sent from connection: " + event.from.id)
-      });
-    });
-
-
-    //Load internet based js files
-    $.getScript("https://api.bistri.com/bistri.conference.min.js");
+    //   session.on("signal:foo", function(event) {
+    //     console.log("signal sent from connection: " + event.from.id)
+    //   });
+    // });
 
     //For loading third party libraries that are bower dependencies
     /*
