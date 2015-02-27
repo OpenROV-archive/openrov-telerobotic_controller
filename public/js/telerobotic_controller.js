@@ -77,22 +77,41 @@
     var users = {};
     var dataChannels = {};
     var self = this.cockpit;
+    
     $.getScript("http://static.opentok.com/v2.4/js/opentok.min.js", function (data,status) {
       console.log("loaded opentok successfully");
+      var rov_control = self; // controls
+
       $.get("https://openrov-liveview.herokuapp.com/channels/1/telerobotic_credentials", function (data, status){
         OT_apiKey = data.api_key;
         OT_token = data.token;
         OT_sessionId = data.session_id;
         console.log("OT_sessiondId: " + OT_sessionId + "\nOT_apiKey: " + OT_apiKey + "\nOT_token: " + OT_token);
         var session = OT.initSession(OT_apiKey, OT_sessionId)
+
+        var self = rov_control; // controls
+
         session.connect(OT_token, function(error) {
           console.log("session connected");
         });
+
         session.on("signal:light",function(event){
           console.log("light: signal sent from connection: " + event.from.id);
+          self.socket.emit('brightness_update',1);
+          var myrov = self;
+          setTimeout(function(){ 
+            myrov.socket.emit('brightness_update',0);
+          }, 1000);
         });
+
         session.on("signal:laser", function(event){
           console.log("laser: signal sent from connection: " + event.from.id);
+          self.socket.emit('laser_update',1);
+          var myrov = self;
+          setTimeout(function(){ 
+            myrov.socket.emit('brightness_update',0);
+          }, 1000);
+
         });
       });
     });
