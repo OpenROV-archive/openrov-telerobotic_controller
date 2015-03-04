@@ -73,6 +73,7 @@
     // $('#data-channel').load(jsFileLocation + '../partial.html',function(data){
     //   console.log('partial template loaded');
     // });
+
     var room;
     var users = {};
     var dataChannels = {};
@@ -92,59 +93,59 @@
         var self = rov;
 
         // Lights
-        session.on("signal:light",function(event){
+        session.on("signal-light",function(event){
           console.log("light: signal sent from connection: " + event.from.id);
           self.socket.emit('brightness_update',1);
         });
 
         // Lasers
-        session.on("signal:laser", function(event){
+        session.on("signal-laser", function(event){
           console.log("laser: signal sent from connection: " + event.from.id);
           self.socket.emit('laser_update',1);
         });
 
         // move forward
-        session.on("move:forward", function(event){
+        session.on("move-forward", function(event){
           console.log("remote - move:forward session event")
           self.socket.emit('rovpilot.setThrottle',1)
         })
 
         // stop moving forward
-        session.on('move:forward-stop', function(event){
+        session.on('move-forward-stop', function(event){
           console.log("remote - move:forward session event")
           self.socket.emit('rovpilot.setThrottle',0)
         })
 
         //move left
-        session.on('move:left', function(event){
+        session.on('move-left', function(event){
           console.log('remote - move:left session event')
           self.socket.emit('rovpilot.setYaw',-1)
         })
 
         //stop moving left
-        session.on('move:left-stop', function(event){
+        session.on('move-left-stop', function(event){
           console.log('remote - move:left-stop session event')
           self.socket.emit('rovpilot.setYaw',0)
         })
 
         //move right
-        session.on('move:right', function(event) {
+        session.on('move-right', function(event) {
           console.log('remote - move:right session event')
           self.socket.emit('rovpilot.setYaw',1)
         })
 
         //stop moving right
-        session.on('move:right-stop', function(event){
+        session.on('right-stop', function(event){
           console.log('remote - move:right-stop session event ')
           self.socket.emit('rovpilot.setYaw', 0)
         })
 
         // lift up
-        session.on('move:up', function(event){
+        session.on('move-up', function(event){
           self.socket.emit('rovpilot.setLift', -1)
         })
 
-        session.on('move:up-down-stop', function(event){
+        session.on('move-up-down-stop', function(event){
           self.socket.emit('rovpilot.setLift',0)
         })
 
