@@ -69,10 +69,10 @@
     // to place them in a seperate .html file. The code below will load
     // them in to an element.
 
-    $('body').prepend('<div id="data-channel"></div>')
-    $('#data-channel').load(jsFileLocation + '../partial.html',function(data){
-      console.log('partial template loaded');
-    });
+    // $('body').prepend('<div id="data-channel"></div>')
+    // $('#data-channel').load(jsFileLocation + '../partial.html',function(data){
+    //   console.log('partial template loaded');
+    // });
     var room;
     var users = {};
     var dataChannels = {};
