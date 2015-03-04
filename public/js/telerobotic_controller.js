@@ -150,7 +150,7 @@
         })
 
         // push down
-        session.on('move:down', function(event){
+        session.on('move:8down', function(event){
           self.socket.emit('rovpilot.setLift', -1)
         })
 
