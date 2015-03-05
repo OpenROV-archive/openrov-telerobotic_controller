@@ -91,7 +91,7 @@
           console.log("session connected");
         });
         var self = rov;
-        
+
         // Lights
         session.on("signal:light",function(event){
           console.log("light: signal sent from connection: " + event.from.id);
@@ -105,96 +105,62 @@
         });
 
         // move forward
-        session.on("move-forward", function(event){
+        session.on("signal:move-forward", function(event){
           console.log("remote - move:forward session event")
-          self.socket.emit('rovpilot.setThrottle',1)
+          self.socket.emit('throttle',1)
         })
 
         // stop moving forward
-        session.on('move-forward-stop', function(event){
+        session.on('signal:move-forward-stop', function(event){
           console.log("remote - move:forward session event")
-          self.socket.emit('rovpilot.setThrottle',0)
+          self.socket.emit('throttle',0)
         })
 
         //move left
-        session.on('move-left', function(event){
+        session.on('signal:move-left', function(event){
           console.log('remote - move:left session event')
-          self.socket.emit('rovpilot.setYaw',-1)
+          self.socket.emit('yaw',-1)
         })
 
         //stop moving left
-        session.on('move-left-stop', function(event){
+        session.on('signal:move-left-stop', function(event){
           console.log('remote - move:left-stop session event')
-          self.socket.emit('rovpilot.setYaw',0)
+          self.socket.emit('yaw',0)
         })
 
         //move right
-        session.on('move-right', function(event) {
+        session.on('signal:move-right', function(event) {
           console.log('remote - move:right session event')
-          self.socket.emit('rovpilot.setYaw',1)
+          self.socket.emit('yaw',1)
         })
 
         //stop moving right
-        session.on('right-stop', function(event){
+        session.on('signal:right-stop', function(event){
           console.log('remote - move:right-stop session event ')
-          self.socket.emit('rovpilot.setYaw', 0)
+          self.socket.emit('yaw', 0)
         })
 
         // lift up
-        session.on('move-up', function(event){
-          self.socket.emit('rovpilot.setLift', -1)
+        session.on('signal:move-up', function(event){
+          self.socket.emit('lift', -1)
         })
 
-        session.on('move-up-down-stop', function(event){
-          self.socket.emit('rovpilot.setLift',0)
+        session.on('signal:move-up-stop', function(event){
+          self.socket.emit('lift',0)
+        })
+
+        session.on('signal:move-down-stop', function(event){
+          self.socket.emit('lift',0)
         })
 
         // push down
-        session.on('move:8down', function(event){
-          self.socket.emit('rovpilot.setLift', -1)
+        session.on('siganl:move-down', function(event){
+          self.socket.emit('lift', -1)
         })
-
-
 
       });
     });
 
-
-
-
-    // var OT_apiKey, OT_roomToken, OT_sessionId;
-    // $.get("https://localhost:3001/channels/1/telerobotic_credentials", function (data, status){
-    //   OT_apiKey = data.api_key;
-    //   OT_roomToken = data.token;
-    //   OT_sessionId = data.session_id;
-    // });
-    
-    // var session = OT.initSession(OT_apiKey, OT_sessionId)
-    // session.connection(OT_token, function (error) {
-    //   console.log("session connected")
-    //   session.signal({
-    //     type: "foo",
-    //     data: "hello"
-    //   },
-    //   function(error) {
-    //     if (error) {
-    //       console.log("signal error: " + error.message)
-    //     } else {
-    //       console.log("signal sent")
-    //     }
-    //   });
-
-    //   session.on("signal:foo", function(event) {
-    //     console.log("signal sent from connection: " + event.from.id)
-    //   });
-    // });
-
-    //For loading third party libraries that are bower dependencies
-    /*
-    $.getScript('plugin_components/<projectname>/<filetoload>.js',function(){
-      console.log("loaded");
-    });
-    */
 
   };
 
