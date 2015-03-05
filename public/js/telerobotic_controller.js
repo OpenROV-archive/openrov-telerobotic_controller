@@ -91,15 +91,15 @@
           console.log("session connected");
         });
         var self = rov;
-
+        
         // Lights
-        session.on("signal-light",function(event){
+        session.on("signal:light",function(event){
           console.log("light: signal sent from connection: " + event.from.id);
           self.socket.emit('brightness_update',1);
         });
 
         // Lasers
-        session.on("signal-laser", function(event){
+        session.on("signal:laser", function(event){
           console.log("laser: signal sent from connection: " + event.from.id);
           self.socket.emit('laser_update',1);
         });
