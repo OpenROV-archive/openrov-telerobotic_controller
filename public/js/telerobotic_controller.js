@@ -116,6 +116,18 @@
           self.socket.emit('throttle',0)
         })
 
+        //move reverse
+        session.on('signal:move-reverse', function(event){
+          console.log("remote - move:forward session event")
+          self.socket.emit('throttle',-1)
+        })
+
+        //stop moving reverse
+        session.on('signal:move-reverse-stop', function(event){
+          console.log("remote - move:forward session event")
+          self.socket.emit('throttle',0)
+        })
+
         //move left
         session.on('signal:move-left', function(event){
           console.log('remote - move:left session event')
