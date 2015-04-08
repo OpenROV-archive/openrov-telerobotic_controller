@@ -169,7 +169,7 @@
 
         // lift up
         session.on('signal:move-up', function(event){
-          self.socket.emit('lift', -1)
+          self.socket.emit('lift', 1)
         })
 
         session.on('signal:move-up-stop', function(event){
