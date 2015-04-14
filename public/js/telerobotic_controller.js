@@ -94,17 +94,6 @@
 
         // Register Chrome extension
         OT.registerScreenSharingExtension("chrome", "alocckonefdmbfllfgeonlemhkgkmbji");
-        // Screen sharing options
-        var publishOptions = {};
-        publishOptions.maxResolution = { width: 1920, height: 1100};
-        publishOptions.videoSource = 'screen';
-        publishOptions.fitMode = "contain"
-        publishOptions.width = 900
-        publishOptions.height = 500;
-        publishOptions.publishAudio = true;
-        // Actually share the screen
-        var publisher = OT.initPublisher('hidden-screen-preview', publishOptions);
-        session.publish(publisher);
 
 
         // Lights
