@@ -8,6 +8,8 @@
 
         // Instance variables
         this.cockpit = cockpit;
+        this.api_response;
+
 
     //example keyboard hook
     this.cockpit.emit('inputController.register',
@@ -29,6 +31,11 @@
       alert('telerobotic_controller disabled');
     };
   };
+
+  telerobotic_controller.prototype.getChannelData = function getChannelData(channel_id){
+    //move api call here...
+    return api_response_json
+  }
 
   //This will be called by the input manager automatically
   telerobotic_controller.prototype.listen = function listen() {
@@ -69,17 +76,31 @@
     // to place them in a seperate .html file. The code below will load
     // them in to an element.
 
-    // $('body').prepend('<div id="data-channel"></div>')
-    // $('#data-channel').load(jsFileLocation + '../partial.html',function(data){
-    //   console.log('partial template loaded');
-    // });
+    $('body').prepend('<div id="data-channel"></div>')
+      $('#data-channel').load(jsFileLocation + '../partial.html',function(data){
+       console.log('partial template loaded');
+      $('#channelnumber').click(function(){
+        console.log("clicked:");
+        response = getChannelData(channel_id)
+
+      });
+    });
+
+    var searchterm = 0;
+   // $('#channelnumber').click(function(){
+//  console.log("clicked:");
+  //  });
+
     $('body').append('<div id="hidden-screen-preview" style="visibility: hidden;">');
     var room;
     var users = {};
     var dataChannels = {};
     var self = this.cockpit;
+  console.log("searchterm:");
+
     $.getScript("http://static.opentok.com/v2.4/js/opentok.min.js", function (data,status) {
       console.log("loaded opentok successfully");
+      console.log("searchterm: " + searchterm);
       var rov = self;
       $.get("https://openrov-liveview.herokuapp.com/channels/1/telerobotic_credentials", function (data, status){
         OT_apiKey = data.api_key;
@@ -94,6 +115,17 @@
 
         // Register Chrome extension
         OT.registerScreenSharingExtension("chrome", "alocckonefdmbfllfgeonlemhkgkmbji");
+        // Screen sharing options
+        //var publishOptions = {};
+        //publishOptions.maxResolution = { width: 1920, height: 1100};
+        //publishOptions.videoSource = 'screen';
+        //publishOptions.fitMode = "contain"
+        //publishOptions.width = 900
+        //publishOptions.height = 500;
+        //publishOptions.publishAudio = true;
+        // Actually share the screen
+        //var publisher = OT.initPublisher('hidden-screen-preview', publishOptions);
+        //session.publish(publisher);
 
 
         // Lights
@@ -179,6 +211,11 @@
 
 
   };
+
+
+
+
+
 
     window.Cockpit.plugins.push(telerobotic_controller);
 
