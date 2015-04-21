@@ -1,5 +1,5 @@
 {
-  "name": "openrov-telerobotic_controller-plugin",
+  "name": "openrov-telerobotic-plugin",
   "description": "Remote control of OpenROV over the Internet",
   "version": "0.0.1",
   "homepage": "https://openrov-liveview.herokuapp.com/",
