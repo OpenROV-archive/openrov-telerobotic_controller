@@ -76,16 +76,15 @@
     // to place them in a seperate .html file. The code below will load
     // them in to an element.
 
-    $('body').prepend('<div id="data-channel"></div>')
-      $('#data-channel').load(jsFileLocation + '../partial.html',function(data){
+   //kinda this works
+    $('#plugin-settings').append('<div id="openROVChannelRegistration"></div>')
+    $('#openROVChannelRegistration').load(jsFileLocation + '../settings.html',function(data){
        console.log('partial template loaded');
-      $('#channelnumber').click(function(){
-        console.log("clicked:");
-        response = getChannelData(channel_id)
-
-      });
     });
 
+    //this.cockpit.extensionPoints.rovSettings.append('<div id="openROVChannelRegistration"></div>')
+    //settingsElement = this.cockpit.extensionPoints.rovSetting.find('#openROVChannelRegistration');
+    //settingsElement.load(jsFileLocation + '../settings.html');
     var searchterm = 0;
    // $('#channelnumber').click(function(){
 //  console.log("clicked:");
