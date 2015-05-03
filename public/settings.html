@@ -1,20 +1,17 @@
-<div class="container">
-  <div class="pane" id="pane_0">
-    <input type="text" placeholder="Enter Your Channel Number" id="channel-input" class="form-control">
-    <br>
-    <input type="button" value="Channel Number" id="channelnumber" class="btn btn-info btn-default btn-block">
-  </div>
-  <div class="pane" id="pane_1" style="display: none">
-    <input type="text" placeholder="Chat Room Name" id="room_field" class="form-control">
-    <br>
-    <input type="button" value="Join Chat Room" id="join" class="btn btn-info btn-default btn-block">
-  </div>
-  <div class="pane" id="pane_2" style="display: none">
-    <div id="messages_container"></div>
-    <p>
-      <input type="text" placeholder="Message" id="message_field" class="form-control">
-    </p>
-    <input type="button" value="Send Message" id="send" disabled class="btn btn-success btn-default btn-block">
-    <input type="button" value="Quit Chat Room" id="quit" class="btn btn-danger btn-default btn-block">
-  </div>
+<div class="accordion-group">
+    <div class="accordion-heading">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#plugin-settings" href="https://openrov-liveview.herokuapp.com">
+            Remote Control Registration
+        </a>
+    </div>
+    <div id="openrovConnect" class="accordion-body collapse">
+        <div class="accordion-inner">
+            <div class="control-group">
+                <label class="control-label" for="openrovConnectChannelId">OpenROV Connect Channel Number:</label>
+                <input type="text" id="openrovConnectChannelId" />
+                <label class="control-label" for="openROVConnect">OpenROV Connect Number:</label>
+                <input type="text" id="openrovConnectPasscode" />
+            </div>
+        </div>
+    </div>
 </div>
