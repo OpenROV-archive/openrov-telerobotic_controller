@@ -102,6 +102,7 @@
       console.log("searchterm: " + searchterm);
       var rov = self;
       $.get("https://openrov-liveview.herokuapp.com/channels/1/telerobotic_credentials", function (data, status){
+      //$.get("https://73de3097.ngrok.com/channels/1/telerobotic_credentials", function (data, status){
         OT_apiKey = data.api_key;
         OT_token = data.token;
         OT_sessionId = data.session_id;
