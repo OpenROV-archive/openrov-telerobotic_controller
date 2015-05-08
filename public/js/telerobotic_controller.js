@@ -83,11 +83,11 @@
   $('#getRoomCredentials').on("click",function(){
       var channelNo = $('#openrovConnectChannelId').val();
       console.log("room: " + channelNo);
-            getCredentials();
+            getCredentials(channelNo);
   });
    });
 
-      function getCredentials(){
+      function getCredentials(channelNumber){
     console.log("this is where you'd get credentials")
     $.get("https://openrov-liveview.herokuapp.com/channels/1/telerobotic_credentials", function (data, status){
       //$.get("http://73de3097.ngrok.com/channels/" + bb_serial +  "/telerobotic_credentials", function (data, status){
