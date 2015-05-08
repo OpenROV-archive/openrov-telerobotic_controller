@@ -44,7 +44,7 @@
     //This snippet allows you to listen to events coming
     //from the beaglebone.  Those coulbe be navdata, status, etc...
 
-    this.cockpit.socket.on('test', function (data) {
+   this.cockpit.socket.on('test', function (data) {
       console.log("recieved test message from browser.");
       //rov.dosomethingwith(data);
     });
@@ -80,12 +80,30 @@
     $('#plugin-settings').append('<div id="openROVChannelRegistration"></div>')
     $('#openROVChannelRegistration').load(jsFileLocation + '../settings.html',function(data){
        console.log('partial template loaded');
+  $('#getRoomCredentials').on("click",function(){
+      var channelNo = $('#openrovConnectChannelId').val();
+      console.log("room: " + channelNo);
+            getCredentials();
+  });
+   });
+
+      function getCredentials(){
+    console.log("this is where you'd get credentials")
+    $.get("https://openrov-liveview.herokuapp.com/channels/1/telerobotic_credentials", function (data, status){
+      //$.get("http://73de3097.ngrok.com/channels/" + bb_serial +  "/telerobotic_credentials", function (data, status){
+              OT_apiKey = data.api_key;
+              OT_token = data.token;
+              OT_sessionId = data.session_id;
+              console.log("OT_sessiondId: " + OT_sessionId + "\nOT_apiKey: " + OT_apiKey + "\nOT_token: " + OT_token);
     });
+      }
 
     //this.cockpit.extensionPoints.rovSettings.append('<div id="openROVChannelRegistration"></div>')
     //settingsElement = this.cockpit.extensionPoints.rovSetting.find('#openROVChannelRegistration');
     //settingsElement.load(jsFileLocation + '../settings.html');
-    var searchterm = 0;
+   
+      
+      var searchterm = 0;
    // $('#channelnumber').click(function(){
 //  console.log("clicked:");
   //  });
@@ -101,8 +119,10 @@
       console.log("loaded opentok successfully");
       console.log("searchterm: " + searchterm);
       var rov = self;
+      var bb_serial = "321"
+
       $.get("https://openrov-liveview.herokuapp.com/channels/1/telerobotic_credentials", function (data, status){
-      //$.get("https://73de3097.ngrok.com/channels/1/telerobotic_credentials", function (data, status){
+      //$.get("http://73de3097.ngrok.com/channels/" + bb_serial +  "/telerobotic_credentials", function (data, status){
         OT_apiKey = data.api_key;
         OT_token = data.token;
         OT_sessionId = data.session_id;
@@ -112,7 +132,7 @@
           console.log("session connected");
         });
         var self = rov;
-
+      
         // Register Chrome extension
         OT.registerScreenSharingExtension("chrome", "alocckonefdmbfllfgeonlemhkgkmbji");
         // Screen sharing options
