@@ -89,25 +89,98 @@
 
       function getCredentials(channelNumber){
     console.log("this is where you'd get credentials")
-    $.get("https://openrov-liveview.herokuapp.com/channels/1/telerobotic_credentials", function (data, status){
+    $.get("https://openrov-liveview.herokuapp.com/channels/" + channelNumber + "/telerobotic_credentials", function (data, status){
       //$.get("http://73de3097.ngrok.com/channels/" + bb_serial +  "/telerobotic_credentials", function (data, status){
               OT_apiKey = data.api_key;
               OT_token = data.token;
               OT_sessionId = data.session_id;
               console.log("OT_sessiondId: " + OT_sessionId + "\nOT_apiKey: " + OT_apiKey + "\nOT_token: " + OT_token);
+        var session = OT.initSession(OT_apiKey, OT_sessionId)
+        session.connect(OT_token, function(error) {
+      console.log("session connected");
+              });
+                // Lights
+              session.on("signal:light",function(event){
+      console.log("light: signal sent from connection: " + event.from.id);
+      self.socket.emit('brightness_update',1);
+              });
+
+        // Lasers
+              session.on("signal:laser", function(event){
+      console.log("laser: signal sent from connection: " + event.from.id);
+      self.socket.emit('laser_update',1);
+              });
+
+        // move forward
+        setTimeout(session.on("signal:move-forward", function(event){
+      console.log("remote - move:forward session event")
+      self.socket.emit('throttle',1)
+              }), 3000);
+
+        // stop moving forward
+              session.on('signal:move-forward-stop', function(event){
+      console.log("remote - move:forward session event")
+      self.socket.emit('throttle',0)
+              })
+
+        //move reverse
+              setTimeout(session.on('signal:move-reverse', function(event){
+      console.log("remote - move:forward session event")
+      self.socket.emit('throttle',-1)
+              }), 3000);
+
+        //stop moving reverse
+              session.on('signal:move-reverse-stop', function(event){
+      console.log("remote - move:forward session event")
+      self.socket.emit('throttle',0)
+              })
+
+        //move left
+              setTimeout(session.on('signal:move-left', function(event){
+      console.log('remote - move:left session event')
+      self.socket.emit('yaw',-1)
+              }), 3000);
+
+        //stop moving left
+              session.on('signal:move-left-stop', function(event){
+      console.log('remote - move:left-stop session event')
+      self.socket.emit('yaw',0)
+              })
+
+        //move right
+              setTimeout(session.on('signal:move-right', function(event) {
+      console.log('remote - move:right session event')
+      self.socket.emit('yaw',1)
+              }), 3000);
+
+        //stop moving right
+              session.on('signal:right-stop', function(event){
+      console.log('remote - move:right-stop session event ')
+      self.socket.emit('yaw', 0)
+              })
+
+        // lift up
+              setTimeout(session.on('signal:move-up', function(event){
+      self.socket.emit('lift', 1)
+              }), 3000);
+
+              session.on('signal:move-up-stop', function(event){
+      self.socket.emit('lift',0)
+              })
+
+              session.on('signal:move-down-stop', function(event){
+      self.socket.emit('lift',0)
+              })
+
+        // push down
+              setTimeout(session.on('siganl:move-down', function(event){
+      self.socket.emit('lift', -1)
+              }), 3000);
     });
       }
 
-    //this.cockpit.extensionPoints.rovSettings.append('<div id="openROVChannelRegistration"></div>')
-    //settingsElement = this.cockpit.extensionPoints.rovSetting.find('#openROVChannelRegistration');
-    //settingsElement.load(jsFileLocation + '../settings.html');
-   
       
       var searchterm = 0;
-   // $('#channelnumber').click(function(){
-//  console.log("clicked:");
-  //  });
-
     $('body').append('<div id="hidden-screen-preview" style="visibility: hidden;">');
     var room;
     var users = {};
@@ -118,117 +191,7 @@
     $.getScript("http://static.opentok.com/v2.4/js/opentok.min.js", function (data,status) {
       console.log("loaded opentok successfully");
       console.log("searchterm: " + searchterm);
-      var rov = self;
-      var bb_serial = "321"
-
-      $.get("https://openrov-liveview.herokuapp.com/channels/1/telerobotic_credentials", function (data, status){
-      //$.get("http://73de3097.ngrok.com/channels/" + bb_serial +  "/telerobotic_credentials", function (data, status){
-        OT_apiKey = data.api_key;
-        OT_token = data.token;
-        OT_sessionId = data.session_id;
-        console.log("OT_sessiondId: " + OT_sessionId + "\nOT_apiKey: " + OT_apiKey + "\nOT_token: " + OT_token);
-        var session = OT.initSession(OT_apiKey, OT_sessionId)
-        session.connect(OT_token, function(error) {
-          console.log("session connected");
-        });
-        var self = rov;
-      
-        // Register Chrome extension
-        OT.registerScreenSharingExtension("chrome", "alocckonefdmbfllfgeonlemhkgkmbji");
-        // Screen sharing options
-        //var publishOptions = {};
-        //publishOptions.maxResolution = { width: 1920, height: 1100};
-        //publishOptions.videoSource = 'screen';
-        //publishOptions.fitMode = "contain"
-        //publishOptions.width = 900
-        //publishOptions.height = 500;
-        //publishOptions.publishAudio = true;
-        // Actually share the screen
-        //var publisher = OT.initPublisher('hidden-screen-preview', publishOptions);
-        //session.publish(publisher);
-
-
-        // Lights
-        session.on("signal:light",function(event){
-          console.log("light: signal sent from connection: " + event.from.id);
-          self.socket.emit('brightness_update',1);
-        });
-
-        // Lasers
-        session.on("signal:laser", function(event){
-          console.log("laser: signal sent from connection: " + event.from.id);
-          self.socket.emit('laser_update',1);
-        });
-
-        // move forward
-        session.on("signal:move-forward", function(event){
-          console.log("remote - move:forward session event")
-          self.socket.emit('throttle',1)
-        })
-
-        // stop moving forward
-        session.on('signal:move-forward-stop', function(event){
-          console.log("remote - move:forward session event")
-          self.socket.emit('throttle',0)
-        })
-
-        //move reverse
-        session.on('signal:move-reverse', function(event){
-          console.log("remote - move:forward session event")
-          self.socket.emit('throttle',-1)
-        })
-
-        //stop moving reverse
-        session.on('signal:move-reverse-stop', function(event){
-          console.log("remote - move:forward session event")
-          self.socket.emit('throttle',0)
-        })
-
-        //move left
-        session.on('signal:move-left', function(event){
-          console.log('remote - move:left session event')
-          self.socket.emit('yaw',-1)
-        })
-
-        //stop moving left
-        session.on('signal:move-left-stop', function(event){
-          console.log('remote - move:left-stop session event')
-          self.socket.emit('yaw',0)
-        })
-
-        //move right
-        session.on('signal:move-right', function(event) {
-          console.log('remote - move:right session event')
-          self.socket.emit('yaw',1)
-        })
-
-        //stop moving right
-        session.on('signal:right-stop', function(event){
-          console.log('remote - move:right-stop session event ')
-          self.socket.emit('yaw', 0)
-        })
-
-        // lift up
-        session.on('signal:move-up', function(event){
-          self.socket.emit('lift', 1)
-        })
-
-        session.on('signal:move-up-stop', function(event){
-          self.socket.emit('lift',0)
-        })
-
-        session.on('signal:move-down-stop', function(event){
-          self.socket.emit('lift',0)
-        })
-
-        // push down
-        session.on('siganl:move-down', function(event){
-          self.socket.emit('lift', -1)
-        })
-
-      });
-    });
-
+     })
 
   };
 
